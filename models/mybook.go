@@ -5,9 +5,9 @@ import (
 )
 
 type MyBook struct {
-	Id        int `xorm:"pk autoincr" json:"id"`
-	UserId    int
-	BookId    int
+	Id        int       `xorm:"pk autoincr" json:"id"`
+	UserId    int       `json:"userId"`
+	BookId    int       `json:"bookId"`
 	CreatedAt time.Time `xorm:"created"`
 }
 
@@ -35,6 +35,18 @@ func BuyBook(bId, uId int) (book *Book, err error) {
 	book = &Book{Id: bId}
 	if err = book.Get(); err != nil {
 		return nil, err
+	}
+	return
+}
+
+func MyBookIds(uId int) (r []int, err error) {
+	var books []*MyBook
+	err = engine.Where("user_id=?", uId).Find(&books)
+	if err != nil {
+		return
+	}
+	for _, item := range books {
+		r = append(r, item.BookId)
 	}
 	return
 }

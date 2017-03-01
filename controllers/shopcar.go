@@ -49,3 +49,15 @@ func (this *ShopCarController) Remove() {
 	}
 	this.Succuess(com)
 }
+
+func (this *ShopCarController) List() {
+	ids, err := models.MyShopcarBookIds(this.User.Id)
+	if err != nil {
+		this.Fail(2, err.Error())
+	}
+	books, err := models.BookInId(ids)
+	if err != nil {
+		this.Fail(2, err.Error())
+	}
+	this.Succuess(books)
+}

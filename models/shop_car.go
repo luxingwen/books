@@ -5,9 +5,9 @@ import (
 )
 
 type ShopCar struct {
-	Id        int `xorm:"pk autoincr" json:"id"`
-	BookId    int
-	UserId    int
+	Id        int       `xorm:"pk autoincr" json:"id"`
+	BookId    int       `json:"bookId"`
+	UserId    int       `json:"userId"`
 	CreatedAt time.Time `xorm:"created"`
 	UpdateAt  time.Time `xorm:"updated"`
 }
@@ -22,4 +22,16 @@ func (this *ShopCar) Update() error {
 
 func (this *ShopCar) Del() error {
 	return delete(this)
+}
+
+func MyShopcarBookIds(uId int) (r []int, err error) {
+	var shopcars []*ShopCar
+	err = engine.Where("user_id=?", uId).Find(&shopcars)
+	if err != nil {
+		return
+	}
+	for _, item := range shopcars {
+		r = append(r, item.BookId)
+	}
+	return
 }

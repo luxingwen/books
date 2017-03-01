@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"strconv"
+	"time"
 )
 
 type BookController struct {
@@ -67,16 +68,43 @@ func (this *BaseController) BookInfo() {
 		this.Fail(400, "获取图书列表失败:"+err.Error())
 	}
 
+	type Community struct {
+		Id        int          `json:"id"`
+		Content   string       `json:"content"`
+		User      *models.User `json:"user"`
+		CreatedAt time.Time    `xorm:"created"`
+	}
 	type BookInfo struct {
-		Book       *models.Book
-		Communitys []*models.Community
+		Book       *models.Book `json:"book"`
+		Communitys []*Community `json:"community"`
 	}
 
 	cList, err := models.CommunityListByBook(bookId)
 	if err != nil {
 		this.Fail(400, "获取评论列表失败:"+err.Error())
 	}
-	res := &BookInfo{Book: book, Communitys: cList}
+	var userIds []int
+	var communitys []*Community
+	for _, item := range cList {
+		userIds = append(userIds, item.UserId)
+	}
+	users, err := models.GetUserInId(userIds)
+	if err != nil {
+		this.Fail(2, err.Error())
+	}
+	mUser := make(map[int]*models.User)
+	for _, item := range users {
+		mUser[item.Id] = item
+	}
+
+	for _, item := range cList {
+		if v, ok := mUser[item.UserId]; ok {
+			c := &Community{Id: item.Id, Content: item.Content, CreatedAt: item.CreatedAt, User: v}
+			communitys = append(communitys, c)
+		}
+	}
+
+	res := &BookInfo{Book: book, Communitys: communitys}
 	this.Succuess(res)
 
 }

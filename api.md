@@ -58,6 +58,55 @@ method:post
 
 ```
 
+获取个人信息
+```
+path:/api/user
+method:get
+{
+  "code": 0,
+  "data": {
+    "id": 2,
+    "username": "lxw2",
+    "phone": "",
+    "email": "935232474@qq.com",
+    "pic": "",
+    "money": 0,
+    "token": "239f312e04a2cddf795495c20e0e57ce",
+    "CreatedAt": "2017-02-28T23:30:34+08:00",
+    "UpdateAt": "2017-02-28T23:30:34+08:00"
+  },
+  "msg": "success"
+}
+```
+
+更新个人信息
+```
+path:/api/user
+method:put
+
+{
+	"username":"ss1",
+	"pic":"http://a4.topitme.com/o017/1001791526cae12549.jpg"
+}
+
+
+{
+  "code": 0,
+  "data": {
+    "id": 2,
+    "username": "luxingwen",
+    "phone": "",
+    "email": "",
+    "pic": "http://a4.topitme.com/o017/1001791526cae12549.jpg",
+    "money": 0,
+    "token": "",
+    "CreatedAt": "0001-01-01T00:00:00Z",
+    "UpdateAt": "2017-03-01T11:02:19.599319155+08:00"
+  },
+  "msg": "success"
+}
+```
+
 添加图书
 ```
 path:/api/book
@@ -175,29 +224,40 @@ path:/api/book/info/id
 id是图书的id
 method:get
 {
-    "code": 0,
-    "data": {
-        "Book": {
-            "id": 1,
-            "name": "代码大全",
-            "autor": "甩甩2",
-            "desc": "我是描述",
-            "pic": "",
-            "category": 2,
-            "CreatedAt": "2017-03-01T00:23:35+08:00",
-            "UpdateAt": "2017-03-01T00:33:27+08:00"
-        },
-        "Communitys": [
-            {
-                "id": 1,
-                "content": "我是甩甩的评论。。。",
-                "bookId": 1,
-                "userId": 2,
-                "CreatedAt": "2017-03-01T00:46:13+08:00"
-            }
-        ]
+  "code": 0,
+  "data": {
+    "book": {
+      "id": 1,
+      "name": "代码大全",
+      "autor": "甩甩2",
+      "desc": "我是描述",
+      "pic": "",
+      "money": 0,
+      "category": 2,
+      "CreatedAt": "2017-03-01T00:23:35+08:00",
+      "UpdateAt": "2017-03-01T00:33:27+08:00"
     },
-    "msg": "success"
+    "community": [
+      {
+        "id": 1,
+        "content": "我是甩甩的评论。。。",
+        "user": {
+          "id": 2,
+          "username": "luxingwen",
+          "password": "123",
+          "phone": "",
+          "email": "935232474@qq.com",
+          "pic": "http://a4.topitme.com/o017/1001791526cae12549.jpg",
+          "money": 0,
+          "token": "239f312e04a2cddf795495c20e0e57ce",
+          "CreatedAt": "2017-02-28T23:30:34+08:00",
+          "UpdateAt": "2017-03-01T11:02:19+08:00"
+        },
+        "CreatedAt": "2017-03-01T00:46:13+08:00"
+      }
+    ]
+  },
+  "msg": "success"
 }
 ```
 
@@ -247,6 +307,30 @@ method:get
 }
 ```
 
+获取我的图书列表
+
+```
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "name": "代码大全",
+      "autor": "甩甩2",
+      "desc": "我是描述",
+      "pic": "",
+      "money": 0,
+      "category": 2,
+      "CreatedAt": "2017-03-01T00:23:35+08:00",
+      "UpdateAt": "2017-03-01T00:33:27+08:00"
+    }
+  ],
+  "msg": "success"
+}
+```
+
+
+
 
 添加购物车
 ```
@@ -268,4 +352,30 @@ method:post
     },
     "msg": "success"
 }
+```
+
+
+购物車列表
+```
+path:/api/shopcar
+method:get
+
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "name": "代码大全",
+      "autor": "甩甩2",
+      "desc": "我是描述",
+      "pic": "",
+      "money": 0,
+      "category": 2,
+      "CreatedAt": "2017-03-01T00:23:35+08:00",
+      "UpdateAt": "2017-03-01T00:33:27+08:00"
+    }
+  ],
+  "msg": "success"
+}
+
 ```

@@ -10,7 +10,7 @@ import (
 type User struct {
 	Id        int       `xorm:"pk autoincr" json:"id"`
 	UserName  string    `json:"username"`
-	PassWord  string    `json:"password"`
+	PassWord  string    `json:"password,omitempty"`
 	Phone     string    `json:"phone"`
 	Email     string    `json:"email"`
 	Pic       string    `json:"pic"`
@@ -26,7 +26,8 @@ func (this *User) Add() error {
 }
 
 func (this *User) Update() error {
-	return update(this)
+	_, err := engine.Where("id=?", this.Id).Update(this)
+	return err
 }
 
 func (this *User) Del() error {
@@ -43,6 +44,7 @@ func GetUserByToken(token string) (user *User, err error) {
 	if !has {
 		return nil, errors.New("not found user.")
 	}
+	user.PassWord = ""
 	return
 }
 
@@ -61,5 +63,10 @@ func Login(userName, email, pwd string) (user *User, err error) {
 		return
 	}
 	user.PassWord = ""
+	return
+}
+
+func GetUserInId(ids []int) (r []*User, err error) {
+	err = engine.In("id", ids).Find(&r)
 	return
 }

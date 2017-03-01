@@ -30,20 +30,6 @@ func (this *UserController) Register() {
 	this.Succuess(user)
 }
 
-func (this *UserController) Update() {
-	body := this.Ctx.Input.CopyBody(beego.BConfig.MaxMemory)
-	var user *models.User
-	if err := json.Unmarshal(body, &user); err != nil {
-		fmt.Println("register func, json unmarshal err:%v", err)
-		return
-	}
-	if err := user.Update(); err != nil {
-		fmt.Println("update error. error: ", err)
-		return
-	}
-	this.Succuess(user)
-}
-
 func (this *UserController) Login() {
 	fmt.Println("login...")
 	body := this.Ctx.Input.CopyBody(beego.BConfig.MaxMemory)
@@ -64,4 +50,27 @@ func (this *UserController) Login() {
 		this.Fail(1, "login failer.")
 	}
 	this.Succuess(rUser)
+}
+
+type UserInfoController struct {
+	AppController
+}
+
+func (this *UserInfoController) Update() {
+	body := this.Ctx.Input.CopyBody(beego.BConfig.MaxMemory)
+	var user *models.User
+	if err := json.Unmarshal(body, &user); err != nil {
+		fmt.Println("register func, json unmarshal err:%v", err)
+		return
+	}
+	user.Id = this.User.Id
+	if err := user.Update(); err != nil {
+		fmt.Println("update error. error: ", err)
+		return
+	}
+	this.Succuess(user)
+}
+
+func (this *UserInfoController) UserInfo() {
+	this.Succuess(this.User)
 }

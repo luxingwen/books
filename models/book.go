@@ -11,6 +11,7 @@ type Book struct {
 	Autor     string    `json:"autor"`
 	Desc      string    `json:"desc"`
 	Pic       string    `json:"pic"`
+	Money     float64   `json:"money"`
 	Category  int       `json:"category"`
 	CreatedAt time.Time `xorm:"created"`
 	UpdateAt  time.Time `xorm:"updated"`
@@ -21,7 +22,8 @@ func (this *Book) Add() error {
 }
 
 func (this *Book) Update() error {
-	return update(this)
+	_, err := engine.Where("id=?", this.Id).Update(this)
+	return err
 }
 
 func (this *Book) Del() error {
@@ -46,5 +48,10 @@ func BookList() (r []*Book, err error) {
 
 func BookListByCategory(t int) (r []*Book, err error) {
 	err = engine.Where("category=?", t).Find(&r)
+	return
+}
+
+func BookInId(ids []int) (r []*Book, err error) {
+	err = engine.In("id", ids).Find(&r)
 	return
 }

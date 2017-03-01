@@ -19,8 +19,11 @@ func init() {
 		beego.NSRouter("/book/:id([0-9]+)", &controllers.BookController{}, "put:Update"),
 		beego.NSRouter("/book/info/:id([0-9]+)", &controllers.BookController{}, "get:BookInfo"),
 		beego.NSRouter("/book/buy", &controllers.BookController{}, "post:BuyBook"),
+		beego.NSRouter("/mybook", &controllers.MyBookController{}, "get:MyBookList"),
 		beego.NSRouter("/shopcar/:id([0-9]+)", &controllers.ShopCarController{}, "post:Add;put:Remove"),
+		beego.NSRouter("/shopcar", &controllers.ShopCarController{}, "get:List"),
 		beego.NSRouter("/book/info/:id([0-9]+)/community", &controllers.CommunityController{}, "post:Add"),
+		beego.NSRouter("/user", &controllers.UserInfoController{}, "get:UserInfo;put:Update"),
 	)
 	beego.AddNamespace(apiNs)
 }
