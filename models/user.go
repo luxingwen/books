@@ -34,6 +34,15 @@ func (this *User) Del() error {
 	return delete(this)
 }
 
+func (this *User) Get() error {
+	_, err := engine.Get(this)
+	if err != nil {
+		return err
+	}
+	this.PassWord = ""
+	return nil
+}
+
 func GetUserByToken(token string) (user *User, err error) {
 	user = new(User)
 	has, err := engine.Where("token=?", token).Get(user)

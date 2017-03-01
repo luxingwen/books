@@ -65,8 +65,10 @@ func (this *UserInfoController) Update() {
 	}
 	user.Id = this.User.Id
 	if err := user.Update(); err != nil {
-		fmt.Println("update error. error: ", err)
-		return
+		this.Fail(400, err.Error())
+	}
+	if err := user.Get(); err != nil {
+		this.Fail(400, err.Error())
 	}
 	this.Succuess(user)
 }
