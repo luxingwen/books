@@ -41,12 +41,33 @@ func (this *BookController) Update() {
 	this.Succuess(book)
 }
 
+type RspBook struct {
+	Id       int              `json:"id"`
+	Name     string           `json:"name"`
+	Autor    string           `json:"autor"`
+	Desc     string           `json:"desc"`
+	Pic      string           `json:"pic"`
+	Money    float64          `json:"money"`
+	Category *models.Category `json:"category"`
+}
+
 func (this *BaseController) BookList() {
 	list, err := models.BookList()
 	if err != nil {
 		this.Fail(400, "获取图书列表失败")
 	}
-	this.Succuess(list)
+	mCategory, err := models.CategoryToMap()
+	var res []*RspBook
+	for _, item := range list {
+		book := &RspBook{Id: item.Id, Name: item.Name, Autor: item.Autor, Desc: item.Desc, Pic: item.Pic, Money: item.Money}
+		if v, ok := mCategory[item.Category]; ok {
+			book.Category = v
+		} else {
+			book.Category = &models.Category{Id: 0, Content: "其它分类", FatherId: 0}
+		}
+		res = append(res, book)
+	}
+	this.Succuess(res)
 }
 
 func (this *BaseController) BookListByTag() {
