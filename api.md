@@ -381,6 +381,30 @@ method:get
 ```
 
 
+获取图书分类信息
+
+```
+path:/api/book/category
+method:get
+
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "content": "IT",
+      "fatherId": 0
+    },
+    {
+      "id": 2,
+      "content": "文学",
+      "fatherId": 0
+    }
+  ],
+  "msg": "success"
+}
+```
+
 文件上传方式一
 ```
 path:/api/file/filename

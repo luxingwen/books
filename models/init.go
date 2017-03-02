@@ -52,13 +52,13 @@ func insert(obj interface{}) error {
 	return nil
 }
 
-func update(obj interface{}) error {
+func update(obj interface{}, id int) error {
 	engine, err := GetEngine()
 	if err != nil {
 		return err
 	}
 	defer engine.Close()
-	affected, err := engine.Update(obj)
+	affected, err := engine.Where("id=?", id).Update(obj)
 	if err != nil {
 		return err
 	}
@@ -68,13 +68,13 @@ func update(obj interface{}) error {
 	return nil
 }
 
-func delete(obj interface{}) error {
+func delete(obj interface{}, id int) error {
 	engine, err := GetEngine()
 	if err != nil {
 		return err
 	}
 	defer engine.Close()
-	_, err = engine.Unscoped().Delete(obj)
+	_, err = engine.Where("id=?", id).Unscoped().Delete(obj)
 	if err != nil {
 		return err
 	}

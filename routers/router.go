@@ -26,6 +26,7 @@ func init() {
 		beego.NSRouter("/user", &controllers.UserInfoController{}, "get:UserInfo;put:Update"),
 		beego.NSRouter("/file/*", &controllers.FileController{}),
 		beego.NSRouter("/file2", &controllers.FileController{}, "get:TestFile;post:UploadFileByFrom"),
+		beego.NSRouter("/book/category", &controllers.CategoryController{}, "get:List"),
 	)
 	beego.AddNamespace(apiNs)
 }

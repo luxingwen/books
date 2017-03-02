@@ -17,11 +17,11 @@ func (this *Community) Add() error {
 }
 
 func (this *Community) Update() error {
-	return update(this)
+	return update(this, this.Id)
 }
 
 func (this *Community) Del() error {
-	return delete(this)
+	return delete(this, this.Id)
 }
 
 func CommunityListByBook(bookId int) (r []*Community, err error) {

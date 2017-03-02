@@ -31,11 +31,11 @@ func (this *User) Update() error {
 }
 
 func (this *User) Del() error {
-	return delete(this)
+	return delete(this, this.Id)
 }
 
 func (this *User) Get() error {
-	_, err := engine.Get(this)
+	_, err := engine.Where("id=?", this.Id).Get(this)
 	if err != nil {
 		return err
 	}

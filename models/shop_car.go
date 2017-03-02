@@ -17,11 +17,11 @@ func (this *ShopCar) Add() error {
 }
 
 func (this *ShopCar) Update() error {
-	return update(this)
+	return update(this, this.Id)
 }
 
 func (this *ShopCar) Del() error {
-	return delete(this)
+	return delete(this, this.Id)
 }
 
 func MyShopcarBookIds(uId int) (r []int, err error) {

@@ -11,3 +11,8 @@ func CategoryToMap() (r map[int]*Category, err error) {
 	err = engine.Find(&r)
 	return
 }
+
+func CategoryList() (r []*Category, err error) {
+	err = engine.Find(&r)
+	return
+}

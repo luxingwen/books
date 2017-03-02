@@ -27,11 +27,11 @@ func (this *Book) Update() error {
 }
 
 func (this *Book) Del() error {
-	return delete(this)
+	return delete(this, this.Id)
 }
 
 func (this *Book) Get() error {
-	has, err := engine.Get(this)
+	has, err := engine.Where("id=?", this.Id).Get(this)
 	if err != nil {
 		return err
 	}

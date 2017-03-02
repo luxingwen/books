@@ -16,11 +16,11 @@ func (this *MyBook) Add() error {
 }
 
 func (this *MyBook) Update() error {
-	return update(this)
+	return update(this, this.Id)
 }
 
 func (this *MyBook) Del() error {
-	return delete(this)
+	return delete(this, this.Id)
 }
 
 func BuyBook(bId, uId int) (book *Book, err error) {
