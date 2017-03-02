@@ -17,13 +17,15 @@ func init() {
 		beego.NSRouter("/books/:id([0-9]+)", &controllers.BaseController{}, "get:BookListByTag"),
 		beego.NSRouter("/book", &controllers.BookController{}, "post:Add"),
 		beego.NSRouter("/book/:id([0-9]+)", &controllers.BookController{}, "put:Update"),
-		beego.NSRouter("/book/info/:id([0-9]+)", &controllers.BookController{}, "get:BookInfo"),
+		beego.NSRouter("/book/info/:id([0-9]+)", &controllers.BaseController{}, "get:BookInfo"),
 		beego.NSRouter("/book/buy", &controllers.BookController{}, "post:BuyBook"),
 		beego.NSRouter("/mybook", &controllers.MyBookController{}, "get:MyBookList"),
 		beego.NSRouter("/shopcar/:id([0-9]+)", &controllers.ShopCarController{}, "post:Add;put:Remove"),
 		beego.NSRouter("/shopcar", &controllers.ShopCarController{}, "get:List"),
 		beego.NSRouter("/book/info/:id([0-9]+)/community", &controllers.CommunityController{}, "post:Add"),
 		beego.NSRouter("/user", &controllers.UserInfoController{}, "get:UserInfo;put:Update"),
+		beego.NSRouter("/file/*", &controllers.FileController{}),
+		beego.NSRouter("/file2", &controllers.FileController{}, "get:TestFile;post:UploadFileByFrom"),
 	)
 	beego.AddNamespace(apiNs)
 }

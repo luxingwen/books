@@ -8,5 +8,6 @@ import (
 
 func main() {
 	models.SyncModels()
+	beego.SetStaticPath("/upload", "upload")
 	beego.Run()
 }

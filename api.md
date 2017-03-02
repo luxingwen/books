@@ -379,3 +379,29 @@ method:get
 }
 
 ```
+
+
+文件上传方式一
+```
+path:/api/file/filename
+method:post
+filename是文件名称
+
+用法示范
+curl -X POST \
+  -H "Content-Type: image/jpeg" \
+  --data-binary '@myPicture.jpg' \
+  /api/file/filename?token=?
+  
+```
+
+
+文件上传方式2
+```
+path:/api/file2
+method:post
+
+用法：
+浏览器打开 /api/file2
+
+```

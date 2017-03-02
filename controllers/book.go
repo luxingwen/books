@@ -77,7 +77,18 @@ func (this *BaseController) BookListByTag() {
 	if err != nil {
 		this.Fail(400, "获取图书列表失败")
 	}
-	this.Succuess(list)
+	mCategory, err := models.CategoryToMap()
+	var res []*RspBook
+	for _, item := range list {
+		book := &RspBook{Id: item.Id, Name: item.Name, Autor: item.Autor, Desc: item.Desc, Pic: item.Pic, Money: item.Money}
+		if v, ok := mCategory[item.Category]; ok {
+			book.Category = v
+		} else {
+			book.Category = &models.Category{Id: 0, Content: "其它分类", FatherId: 0}
+		}
+		res = append(res, book)
+	}
+	this.Succuess(res)
 }
 
 func (this *BaseController) BookInfo() {
@@ -96,10 +107,22 @@ func (this *BaseController) BookInfo() {
 		CreatedAt time.Time    `xorm:"created"`
 	}
 	type BookInfo struct {
-		Book       *models.Book `json:"book"`
+		Book       *RspBook     `json:"book"`
 		Communitys []*Community `json:"community"`
 	}
 
+	mCategory, err := models.CategoryToMap()
+	if err != nil {
+		this.Fail(2, err.Error())
+	}
+
+	resBook := &RspBook{Id: book.Id, Name: book.Name, Autor: book.Autor, Desc: book.Desc, Pic: book.Pic, Money: book.Money}
+
+	if v, ok := mCategory[book.Category]; ok {
+		resBook.Category = v
+	} else {
+		resBook.Category = &models.Category{Id: 0, Content: "其它分类", FatherId: 0}
+	}
 	cList, err := models.CommunityListByBook(bookId)
 	if err != nil {
 		this.Fail(400, "获取评论列表失败:"+err.Error())
@@ -125,7 +148,7 @@ func (this *BaseController) BookInfo() {
 		}
 	}
 
-	res := &BookInfo{Book: book, Communitys: communitys}
+	res := &BookInfo{Book: resBook, Communitys: communitys}
 	this.Succuess(res)
 
 }
